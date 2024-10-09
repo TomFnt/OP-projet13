@@ -6,9 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[UniqueEntity(fields: ['email'], message: 'Cette email est déjà associé à un compte existant.')]
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,6 +26,7 @@ class User
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(message: "{{ value }} n'est pas une adresse email valide", )]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -29,6 +34,19 @@ class User
 
     #[ORM\Column]
     private ?bool $apiActivated = null;
+
+    #[ORM\Column]
+    private ?bool $cguAccepted = null;
+
+    public function getCguAccepted(): ?bool
+    {
+        return $this->cguAccepted;
+    }
+
+    public function setCguAccepted(?bool $cguAccepted): void
+    {
+        $this->cguAccepted = $cguAccepted;
+    }
 
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
     private Collection $orders;
@@ -101,5 +119,29 @@ class User
         $this->apiActivated = $apiActivated;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): array
+    {
+        return $this->roles = array_values($roles);
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getEmail();
     }
 }
