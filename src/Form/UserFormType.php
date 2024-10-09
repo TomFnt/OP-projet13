@@ -68,7 +68,7 @@ class UserFormType extends AbstractType
                 ],
             ])
             ->add('cguAccepted', CheckboxType::class, [
-                'label' => 'Condition générale d\'utilisation',
+                'label' => "J'accepte les CGU de GreenGoodies",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
