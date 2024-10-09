@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <title>{% block title %}Bienvenue!{% endblock %}</title>
+        <link rel="icon" href="{{ asset('img/fav-icon.png') }}">
         {% block stylesheets %}
         {% endblock %}
 
@@ -12,6 +12,26 @@
         {% endblock %}
     </head>
     <body>
+    <nav>
+        <div class="nav-logo">
+            <a href="{{ path('app_home') }}">
+                <img src="{{ asset('img/menu-logo.png') }}" alt="GreenGoodies Logo">
+            </a>
+        </div>
+        <div class="nav-links">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="#">Nos Produits</a>
+                <a href="#">Mon Panier</a>
+                <a href="#">Mon Compte</a>
+                <a href="{{ path('app_logout') }}">Déconnexion</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Connexion</a>
+                <a href="{{ path('app_sign_up') }}">Inscription</a>
+            {% endif %}
+        </div>
+    </nav>
+
         {% block body %}{% endblock %}
     </body>
+    <footer><img src={{ asset('img/brandmark.png') }}></footer>
 </html>
