@@ -22,13 +22,31 @@ class ProductOrder
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $order = null;
 
-    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'productOrders')]
-    private Collection $products;
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productOrders')]
+    private ?Product $product = null;
 
-    public function __construct()
+    public function getOrder(): ?Order
     {
-        $this->products = new ArrayCollection();
+        return $this->order;
     }
+
+    public function setOrder(?Order $order): ProductOrder
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): ProductOrder
+    {
+        $this->product = $product;
+        return $this;
+    }
+
 
     public function getId(): ?int
     {

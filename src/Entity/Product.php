@@ -37,7 +37,7 @@ class Product
     #[ORM\Column]
     private ?int $nbSell = null;
 
-    #[ORM\ManyToMany(targetEntity: ProductOrder::class, mappedBy: 'products')]
+    #[ORM\OneToMany(targetEntity: ProductOrder::class, mappedBy: 'product')]
     private Collection $productOrders;
 
     public function __construct()
