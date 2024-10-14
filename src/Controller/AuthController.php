@@ -47,22 +47,23 @@ class AuthController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $form->get('password')->getData();
-            $cgu = $form->get('cguAccepted')->getData();
+            try {
+                $password = $form->get('password')->getData();
+                $cgu = $form->get('cguAccepted')->getData();
 
-            $user->setPassword($userPasswordHasher->hashPassword($user, $password));
-            $user->setApiActivated(0);
-            $user->setCguAccepted($cgu);
-            $user->setRoles(['ROLE_USER']);
+                $user->setPassword($userPasswordHasher->hashPassword($user, $password));
+                $user->setApiActivated(0);
+                $user->setCguAccepted($cgu);
+                $user->setRoles(['ROLE_USER']);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $entityManager->persist($user);
+                $entityManager->flush();
+            } catch (\Exception $message) {
+                $this->addFlash('error', "Une erreur c'est produite lors de l'inscription.".$message);
+            }
 
-            // do anything else you need here, like send an email
-
-            //return $security->login($user, 'form_login', 'main');
+            // return $security->login($user, 'form_login', 'main');
             return $this->redirectToRoute('app_home');
-
         }
 
         return $this->render('auth/register.html.twig', [

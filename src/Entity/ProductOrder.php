@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductOrderRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductOrderRepository::class)]
@@ -33,6 +31,7 @@ class ProductOrder
     public function setOrder(?Order $order): ProductOrder
     {
         $this->order = $order;
+
         return $this;
     }
 
@@ -44,9 +43,9 @@ class ProductOrder
     public function setProduct(?Product $product): ProductOrder
     {
         $this->product = $product;
+
         return $this;
     }
-
 
     public function getId(): ?int
     {
