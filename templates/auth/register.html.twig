@@ -1,18 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Incription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
+<div class="login-container">
+    <div class="login-image">
+        <img src="{{ asset('img/inscription.png') }}" alt="Image d'inscription">
+    </div>
+    <div class="form-block">
+            <h2 class="h2 mb-2 font-weight-normal">Inscription</h2>
 
-    <h2>Inscription</h2>
     {{ form_start(registrationForm) }}
+
+        {{ form_row(registrationForm.firstName) }}
+        {{ form_row(registrationForm.lastName) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.password) }}
+
+        <div class="form-group cgu">
+            {{ form_widget(registrationForm.cguAccepted, {'attr': {'class': 'checkbox'}}) }}
+            {{ form_label(registrationForm.cguAccepted, 'J\'accepte les conditions générales d\'utilisation') }}
+        </div>
+
     {{ form_rest(registrationForm) }}
-    <button type="submit" class="button button-submit">S'inscrire</button>
+
+    <button type="submit" class="btn">S'inscrire</button>
     <a class="link-white" href="{{ path('app_login') }}">
         <p>Vous avez déjà un compte ? Connexion</p>
     </a>
     {{ form_end(registrationForm) }}
+    </div>
+</div>
 {% endblock %}
