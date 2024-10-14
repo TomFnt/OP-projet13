@@ -9,10 +9,9 @@
         <img src="{{ asset('img/inscription.png') }}" alt="Image d'inscription">
     </div>
     <div class="form-block">
-            <h2 class="h2 mb-2 font-weight-normal">Inscription</h2>
 
     {{ form_start(registrationForm) }}
-
+        <h2>Inscription</h2>
         {{ form_row(registrationForm.firstName) }}
         {{ form_row(registrationForm.lastName) }}
         {{ form_row(registrationForm.email) }}
