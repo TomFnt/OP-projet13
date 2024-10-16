@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Page d'accueil{% endblock %}
 
 {% block body %}
 
@@ -17,4 +17,18 @@
         <img src="{{ asset('img/home/hero-landing.png') }}" alt="Image de Bienvenue">
     </div>
 </div>
+    <h3> Nos Produits</h3>
+    <div class="products-grid">
+        {% for product in topSellingProducts %}
+            <div class="product-card">
+                <img src="{{ asset('img/products/' ~ product.picture) }}" alt="{{ product.name }}">
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.shortDescription }}</p>
+                    <p>Prix: {{ product.price }} €</p>
+                    <a href="#">Voir le produit</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
