@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index( ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository): Response
     {
         $topSellingProducts = $productRepository->getTopSellingProducts();
 
