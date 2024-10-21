@@ -16,7 +16,6 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'topSellingProducts' => $topSellingProducts,
-            'controller_name' => 'HomeController',
         ]);
     }
 }
