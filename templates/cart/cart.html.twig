@@ -4,7 +4,7 @@
 
 {% block body %}
     <h2>Votre panier</h2>
-    {% if cart is not null %}
+    {% if cart is not null  and cart.productOrders|length > 0 %}
     <ul>
         {% for productOrder in cart.productOrders %}
             <li>
