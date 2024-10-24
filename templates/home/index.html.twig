@@ -26,7 +26,7 @@
                     <h3>{{ product.name }}</h3>
                     <p>{{ product.shortDescription }}</p>
                     <p class="price">Prix: {{ product.price }} €</p>
-                    <a href="#">Voir le produit</a>
+                    <a href="{{ path('product_index', {'id':product.id}) }}">Voir le produit</a>
                 </div>
             </div>
         {% endfor %}

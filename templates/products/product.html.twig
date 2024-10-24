@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{product.name}}{% endblock %}
+
+{% block body %}
+<div class="product-container">
+    <div class="product-block">
+        <img src="{{ asset('img/products/' ~ product.picture) }}" alt="{{ product.name }}">
+    </div>
+    <div class="product-block">
+        <h3>{{ product.name }}</h3>
+        <h4>{{ product.price }} €</h4>
+        <h5>Description</h5>
+        <p>{{ product.fullDescription }}</p>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <form action="{{ path('add_to_cart', { 'id': product.id }) }}" method="post">
+            <label for="quantity">Quantité :</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="0" max="{{ product.stockQuantity }}">
+
+            <button type="submit" class="btn">Ajouter au panier</button>
+        </form>
+        {% else  %}
+            <p>Vous devez vous connecter pour pouvoir commander un produit</p>
+            <a href="{{ path('app_login') }}">Connexion</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
