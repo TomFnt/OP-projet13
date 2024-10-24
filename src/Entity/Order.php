@@ -17,11 +17,14 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_order = null;
 
     #[ORM\Column]
     private ?float $totalPrice = null;
+
+    #[ORM\Column()]
+    private ?string $status = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -63,4 +66,38 @@ class Order
 
         return $this;
     }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): Order
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): void
+    {
+        $this->user = $user;
+    }
+
+    public function getProductOrders(): Collection
+    {
+        return $this->productOrders;
+    }
+
+    public function setProductOrders(Collection $productOrders): Order
+    {
+        $this->productOrders = $productOrders;
+        return $this;
+    }
+
+
 }
