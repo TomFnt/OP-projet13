@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\ProductOrder;
+use App\Form\ProductType;
 use App\Repository\OrderRepository;
 use App\Services\ProductOrderService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,8 +20,11 @@ class ProductOrderController extends AbstractController
     #[Route('/addtocart/{id}', name: 'add_to_cart', methods: ['POST'])]
     public function addToCart(Product $product, Request $request, ProductOrderService $productOrderService, EntityManagerInterface $em, UserInterface $user = null): Response
     {
+        $form = $this->createForm(ProductType::class);
+        $form->handleRequest($request);
 
-        $quantity = $request->request->get('quantity');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quantity = $form->get('quantity')->getData();
 
         // wip check user, add them in isgranted
         if (!$user) {
@@ -37,6 +41,9 @@ class ProductOrderController extends AbstractController
 
         // WIP: case create new productOrder
         $productOrderService->addToCart($product, $quantity, $order);
+        } else {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'ajout au panier.');
+        }
 
         // Redirect in cart route after modification / creation
         return $this->redirectToRoute('cart_index');
