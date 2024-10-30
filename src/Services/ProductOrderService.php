@@ -44,4 +44,24 @@ class ProductOrderService
         $this->em->persist($order);
         $this->em->flush();
     }
+
+    /*Check product quantity if this product are in cart */
+    public function getQuantityProductInCart(User $user, Product $product){
+
+        $quantity = null;
+
+        $cart = $this->orderRepository->findOneBy(['user' => $user, 'status' => 'pending']);
+
+        if ($cart != null) {
+            foreach ($cart->getProductOrders() as $productOrder) {
+                if ($productOrder->getProduct()->getId() === $product->getId()) {
+                   $quantity = $productOrder->getQuantity();
+                    break;
+                }
+            }
+        }
+
+
+        return $quantity;
+    }
 }
