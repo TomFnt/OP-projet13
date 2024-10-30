@@ -23,6 +23,8 @@ class ProductType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults(['defaultQuantity' => 1,
+            'minQuantity' => 1,
+            'maxQuantity' => 10]);
     }
 }

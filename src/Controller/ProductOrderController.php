@@ -20,7 +20,11 @@ class ProductOrderController extends AbstractController
     #[Route('/addtocart/{id}', name: 'add_to_cart', methods: ['POST'])]
     public function addToCart(Product $product, Request $request, ProductOrderService $productOrderService, EntityManagerInterface $em, UserInterface $user = null): Response
     {
-        $form = $this->createForm(ProductType::class);
+        $form = $this->createForm(ProductType::class,
+            ['defaultQuantity' => 1,
+            'minQuantity' => 1,
+            'maxQuantity' => 10
+            ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
