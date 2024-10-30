@@ -6,7 +6,6 @@ use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\ProductOrder;
 use App\Form\ProductType;
-use App\Repository\OrderRepository;
 use App\Services\ProductOrderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,33 +17,33 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ProductOrderController extends AbstractController
 {
     #[Route('/addtocart/{id}', name: 'add_to_cart', methods: ['POST'])]
-    public function addToCart(Product $product, Request $request, ProductOrderService $productOrderService, EntityManagerInterface $em, UserInterface $user = null): Response
+    public function addToCart(Product $product, Request $request, ProductOrderService $productOrderService, EntityManagerInterface $em, ?UserInterface $user = null): Response
     {
         $form = $this->createForm(ProductType::class,
             ['defaultQuantity' => 1,
-            'minQuantity' => 1,
-            'maxQuantity' => 10
+                'minQuantity' => 1,
+                'maxQuantity' => 10,
             ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $quantity = $form->get('quantity')->getData();
 
-        // wip check user, add them in isgranted
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
+            // wip check user, add them in isgranted
+            if (!$user) {
+                return $this->redirectToRoute('app_login');
+            }
 
-        // check if an order exist with pending status for this user
-        $order =  $productOrderService->checkIfTempOderExists($user);
+            // check if an order exist with pending status for this user
+            $order = $productOrderService->checkIfTempOderExists($user);
 
-        // create them if doesn't exist
-        if (!$order) {
-            $productOrderService->addToCart($user);
-        }
+            // create them if doesn't exist
+            if (!$order) {
+                $productOrderService->addToCart($user);
+            }
 
-        // WIP: case create new productOrder
-        $productOrderService->addToCart($product, $quantity, $order);
+            // WIP: case create new productOrder
+            $productOrderService->addToCart($product, $quantity, $order);
         } else {
             $this->addFlash('error', 'Une erreur est survenue lors de l\'ajout au panier.');
         }
@@ -56,7 +55,6 @@ class ProductOrderController extends AbstractController
     #[Route('/cart', name: 'cart_index')]
     public function cartIndex(ProductOrderService $productOrderService, UserInterface $user): Response
     {
-
         $user = $this->getUser();
 
         // check if an order exist with pending status for this user
@@ -66,5 +64,4 @@ class ProductOrderController extends AbstractController
             'cart' => $cart,
         ]);
     }
-
 }

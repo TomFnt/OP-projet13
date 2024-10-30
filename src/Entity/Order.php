@@ -75,6 +75,7 @@ class Order
     public function setStatus(?string $status): Order
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -96,8 +97,7 @@ class Order
     public function setProductOrders(Collection $productOrders): Order
     {
         $this->productOrders = $productOrders;
+
         return $this;
     }
-
-
 }

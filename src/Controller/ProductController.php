@@ -18,19 +18,19 @@ class ProductController extends AbstractController
 
         $defaultQuantity = $productOrderService->getQuantityProductInCart($user, $product);
         $maxQuantity = $product->getStockQuantity();
-        $minQuantity = 0; /* it's 0 in case product are set with quantity in user cart*/
+        $minQuantity = 0; /* it's 0 in case product are set with quantity in user cart */
 
-        /*set default quantity and min quantity to 1 if product aren't in cart*/
-        if( $defaultQuantity== null ) {
+        /* set default quantity and min quantity to 1 if product aren't in cart */
+        if (null == $defaultQuantity) {
             $defaultQuantity = 1;
             $minQuantity = 1;
         }
 
         $form = $this->createForm(ProductType::class,
-         ['defaultQuantity' => $defaultQuantity,
-             'minQuantity' => $minQuantity,
-             'maxQuantity' => $maxQuantity
-         ]);
+            ['defaultQuantity' => $defaultQuantity,
+                'minQuantity' => $minQuantity,
+                'maxQuantity' => $maxQuantity,
+            ]);
 
         return $this->render('products/product.html.twig', [
             'product' => $product,
