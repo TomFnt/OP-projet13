@@ -23,7 +23,7 @@
         <div class="nav-links">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a href="#">Nos Produits</a>
-                <a href="#">Mon Panier</a>
+                <a href="{{ path('cart_index') }}">Mon Panier</a>
                 <a href="#">Mon Compte</a>
                 <a href="{{ path('app_logout') }}">Déconnexion</a>
             {% else %}
