@@ -30,7 +30,7 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(targetEntity: ProductOrder::class, mappedBy: 'order')]
+    #[ORM\OneToMany(targetEntity: ProductOrder::class, mappedBy: 'order', orphanRemoval: true)]
     private Collection $productOrders;
 
     public function __construct()
@@ -98,6 +98,13 @@ class Order
     {
         $this->productOrders = $productOrders;
 
+        return $this;
+    }
+
+    public function removeProductOrder(ProductOrder $productOrder)
+    {
+        $this->productOrders->removeElement($productOrder);
+        $productOrder->setOrder(null);
         return $this;
     }
 }

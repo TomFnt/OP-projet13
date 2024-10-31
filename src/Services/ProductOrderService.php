@@ -37,7 +37,10 @@ class ProductOrderService
     public function removeToCart(Product $product, Order $order){
         $productOrder = $this->checkIfProductAlreadyAddInCart($product, $order);
 
-        $this->em->remove($productOrder);
+        if($productOrder == false ){
+            return ;
+        }
+        $order->removeProductOrder($productOrder);
         $this->em->flush();
     }
     public function checkIfTempOderExists(User $user)
@@ -48,12 +51,16 @@ class ProductOrderService
         ]);
     }
 
+    /**
+     * @param Product $product
+     * @param Order $order
+     * @return $1|false|mixed
+     */
     public function checkIfProductAlreadyAddInCart(Product $product, Order $order)
     {
-        return $productOrder = $this->productOrderRepository->findOneBy([
-            'order' => $order,
-            'product' => $product,
-        ]);
+        return $order->getProductOrders()->filter(fn (ProductOrder $productOrder) => $productOrder->getProduct() === $product)->first();
+
+
     }
 
     public function createTempOrder(User $user)

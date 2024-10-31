@@ -21,7 +21,7 @@ class ProductOrderController extends AbstractController
     {
         $form = $this->createForm(ProductType::class,
             ['defaultQuantity' => 1,
-                'minQuantity' => 1,
+                'minQuantity' => 0,
                 'maxQuantity' => 10,
             ]);
         $form->handleRequest($request);
