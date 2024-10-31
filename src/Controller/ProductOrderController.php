@@ -42,8 +42,12 @@ class ProductOrderController extends AbstractController
                 $productOrderService->addToCart($user);
             }
 
-            // WIP: case create new productOrder
-            $productOrderService->addToCart($product, $quantity, $order);
+            if ($quantity == 0 ) {
+                $productOrderService->removeToCart($product, $order);
+            }
+            else{
+                $productOrderService->addToCart($product, $quantity, $order);
+            }
         } else {
             $this->addFlash('error', 'Une erreur est survenue lors de l\'ajout au panier.');
         }
