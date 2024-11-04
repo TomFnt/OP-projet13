@@ -43,6 +43,20 @@ class ProductOrderService
         $order->removeProductOrder($productOrder);
         $this->em->flush();
     }
+
+    public function clearAllProductInCart(Order $order)
+    {
+        if ($order->getProductOrders()->isEmpty()) {
+            return;
+        }
+
+        foreach ($order->getProductOrders() as $productOrder) {
+            $order->removeProductOrder($productOrder);
+        }
+
+        $this->em->flush();
+    }
+
     public function checkIfTempOderExists(User $user)
     {
         return $order = $this->orderRepository->findOneBy([

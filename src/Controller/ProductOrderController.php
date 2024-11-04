@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\Product;
-use App\Entity\ProductOrder;
 use App\Form\ProductType;
 use App\Services\ProductOrderService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,10 +41,9 @@ class ProductOrderController extends AbstractController
                 $productOrderService->addToCart($user);
             }
 
-            if ($quantity == 0 ) {
+            if (0 == $quantity) {
                 $productOrderService->removeToCart($product, $order);
-            }
-            else{
+            } else {
                 $productOrderService->addToCart($product, $quantity, $order);
             }
         } else {
@@ -67,5 +65,24 @@ class ProductOrderController extends AbstractController
         return $this->render('cart/cart.html.twig', [
             'cart' => $cart,
         ]);
+    }
+
+    #[Route('/cart/clear', name: 'cart_clear_all')]
+    public function removeAllProductFromCart( ProductOrderService $productOrderService, UserInterface $user): Response
+    {
+        if(!$user) {
+        return $this->redirectToRoute('app_login');
+    }
+        $order = $productOrderService->checkIfTempOderExists($user);
+
+        if (!$order) {
+            $this->addFlash('info', 'Votre panier est déjà vide.');
+            return $this->redirectToRoute('cart_index');
+        }
+
+        $productOrderService->clearAllProductInCart($order);
+
+        $this->addFlash('success', 'Votre panier a été vider avec succés. .');
+        return $this->redirectToRoute('cart_index');
     }
 }
