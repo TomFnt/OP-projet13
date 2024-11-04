@@ -16,7 +16,7 @@
 
             {{ form_start(form, {'action': path('add_to_cart', {'id': product.id})}) }}
             {{ form_row(form.quantity) }}
-            <button type="submit" class="btn">Ajouter au panier</button>
+            <button type="submit" class="btn">{{ buttonTitle }}</button>
             {{ form_end(form) }}
         {% else  %}
             <p>Vous devez vous connecter pour pouvoir commander un produit</p>
