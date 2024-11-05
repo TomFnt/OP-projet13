@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\Product;
+use App\Entity\ProductOrder;
 use App\Form\ProductType;
 use App\Services\ProductOrderService;
 use Doctrine\ORM\EntityManagerInterface;

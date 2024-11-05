@@ -59,10 +59,25 @@ class ProductOrderService
 
     public function checkIfTempOderExists(User $user)
     {
-        return $order = $this->orderRepository->findOneBy([
+        $totalPrice = 0.0;
+         $order = $this->orderRepository->findOneBy([
             'user' => $user,
             'status' => 'pending',
         ]);
+
+         /*this first condition calculate totalPrice  and return it in $totalPrice each time an productOrder object are found during call of function checkIfTempOrderExists.*/
+         if($order != null){
+            $totalPrice = $this->calculateTotalPrice($order);
+         }
+
+         /*Update value of Order totalPrice if $totalPrice variable aren't equal to actual Order totalPrice */
+         if($order->getTotalPrice() != $totalPrice){
+            $order->setTotalPrice($totalPrice);
+            $this->em->persist($order);
+            $this->em->flush();
+         }
+
+         return $order;
     }
 
     /**
@@ -73,7 +88,6 @@ class ProductOrderService
     public function checkIfProductAlreadyAddInCart(Product $product, Order $order)
     {
         return $order->getProductOrders()->filter(fn (ProductOrder $productOrder) => $productOrder->getProduct() === $product)->first();
-
 
     }
 
@@ -103,5 +117,20 @@ class ProductOrderService
         }
 
         return $quantity;
+    }
+
+    public function calculateTotalPrice(Order $order): float
+    {
+        $totalPrice = 0.0;
+
+        if( $order->getProductOrders()->count() > 0){
+            foreach ($order->getProductOrders() as $productOrder) {
+                $productPrice = $productOrder->getProduct()->getPrice();
+                $quantity = $productOrder->getQuantity();
+
+                $totalPrice += $productPrice * $quantity;
+            }
+        }
+        return $totalPrice;
     }
 }
