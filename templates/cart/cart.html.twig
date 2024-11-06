@@ -3,19 +3,35 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
+<div class="cart-container">
+        <h2>Mon panier</h2>
 
-    <h2>Mon panier</h2>
-    <a href="{{ path("cart_clear_all") }}">Vider le panier</a>
     {% if cart is not null  and cart.productOrders|length > 0 %}
-    <ul>
+        <div class="cart-block">
+            <a href="{{ path("cart_clear_all") }}">Vider le panier</a>
         {% for productOrder in cart.productOrders %}
-            <li>
-                <p>{{ productOrder.product.name }} - <a href="{{  path('product_index', {'id': productOrder.product.id}) }}">{{ productOrder.quantity }}</a> x {{ productOrder.product.price }}€ </p>
-            </li>
+            <div class="cart-row product-row">
+                <div class="product-row-image">
+                    <img src="{{ asset('img/products/' ~ productOrder.product.picture) }}" alt="{{ productOrder.product.name }}">
+                </div>
+                <div class="product-row-summary">
+                    <p>{{ productOrder.product.name }}</p>
+                    <p>Quantité : <a href="{{  path('product_index', {'id': productOrder.product.id}) }}">{{ productOrder.quantity }}</a></p>
+                    <p>{{ productOrder.product.price }}€</p>
+
+                </div>
+            </div>
         {% endfor %}
     </ul>
+            <div class="cart-row price-row">
    <p>Total : {{ cart.getTotalPrice() }} €</p>
+            </div>
+        </div>
     {% else %}
         <p>Votre panier est vide</p>
     {% endif %}
+</div>
 {% endblock %}
+
+
+
