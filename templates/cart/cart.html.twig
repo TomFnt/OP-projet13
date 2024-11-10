@@ -18,7 +18,7 @@
                     <img src="{{ asset('img/products/' ~ productOrder.product.picture) }}" alt="{{ productOrder.product.name }}">
                 </div>
                 <div class="product-row-summary">
-                    <p>{{ productOrder.product.name }}</p>
+                    <p><b>{{ productOrder.product.name }}</b></p>
                     <p>Quantité : <a href="{{  path('product_index', {'id': productOrder.product.id}) }}">{{ productOrder.quantity }}</a></p>
                     <p>{{ productOrder.product.price }}€</p>
 
@@ -27,7 +27,8 @@
         {% endfor %}
     </ul>
             <div class="cart-row price-row">
-   <p>Total : {{ cart.getTotalPrice() }} €</p>
+                <p><b> Total : {{ cart.getTotalPrice() }} € </b></p>
+                <p><i>Frais de livraison : Offert </i></p>
             </div>
         </div>
     {% else %}
