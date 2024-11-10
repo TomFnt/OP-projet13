@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ProductOrderController extends AbstractController
 {
     #[Route('/addtocart/{id}', name: 'add_to_cart', methods: ['POST'])]
-    public function addToCart(Product $product, Request $request, ProductOrderService $productOrderService, EntityManagerInterface $em, ?UserInterface $user = null): Response
+    public function addToCart(Product $product, Request $request, ProductOrderService $productOrderService, ?UserInterface $user = null): Response
     {
         $form = $this->createForm(ProductType::class,
             ['defaultQuantity' => 1,
@@ -73,7 +73,8 @@ class ProductOrderController extends AbstractController
     {
         if(!$user) {
         return $this->redirectToRoute('app_login');
-    }
+        }
+
         $order = $productOrderService->checkIfTempOderExists($user);
 
         if (!$order) {
@@ -83,7 +84,8 @@ class ProductOrderController extends AbstractController
 
         $productOrderService->clearAllProductInCart($order);
 
-        $this->addFlash('success', 'Votre panier a été vider avec succés. .');
+        $this->addFlash('success', 'Votre panier a été vider avec succés.');
         return $this->redirectToRoute('cart_index');
     }
+
 }

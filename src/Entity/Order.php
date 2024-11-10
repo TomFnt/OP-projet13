@@ -41,9 +41,22 @@ class Order
         return $this->orderNum;
     }
 
-    public function setOrderNum(?string $orderNum): Order
+    public function setOrderNum( \DateTime $dateOrdered): self
     {
+
+        $year = $dateOrdered->format('Y');
+        $month = $dateOrdered->format('m');
+
+        $orderId = $this->getId();
+
+            if($orderId >= 1 && $orderId <= 10) {
+                $orderId ="0".$orderId;
+            }
+
+        $orderNum = 'GG'.$month .$year .$orderId;
+
         $this->orderNum = $orderNum;
+
         return $this;
     }
 

@@ -21,7 +21,6 @@
                     <p><b>{{ productOrder.product.name }}</b></p>
                     <p>Quantité : <a href="{{  path('product_index', {'id': productOrder.product.id}) }}">{{ productOrder.quantity }}</a></p>
                     <p>{{ productOrder.product.price }}€</p>
-
                 </div>
             </div>
         {% endfor %}
@@ -30,6 +29,7 @@
                 <p><b> Total : {{ cart.getTotalPrice() }} € </b></p>
                 <p><i>Frais de livraison : Offert </i></p>
             </div>
+            <a href="{{ path("validate_order") }}" class="btn order-btn"> Commander </a>
         </div>
     {% else %}
         <p>Votre panier est vide</p>

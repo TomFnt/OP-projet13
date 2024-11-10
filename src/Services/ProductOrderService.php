@@ -71,7 +71,7 @@ class ProductOrderService
          }
 
          /*Update value of Order totalPrice if $totalPrice variable aren't equal to actual Order totalPrice */
-         if($order->getTotalPrice() != $totalPrice){
+         if($order !== null && $order->getTotalPrice() != $totalPrice){
             $order->setTotalPrice($totalPrice);
             $this->em->persist($order);
             $this->em->flush();
