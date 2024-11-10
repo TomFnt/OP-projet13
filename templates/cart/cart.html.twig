@@ -8,7 +8,10 @@
 
     {% if cart is not null  and cart.productOrders|length > 0 %}
         <div class="cart-block">
-            <a href="{{ path("cart_clear_all") }}">Vider le panier</a>
+            <a href="{{ path("cart_clear_all") }}">
+                <i class="fas fa-times"></i>
+                    Vider le panier
+            </a>
         {% for productOrder in cart.productOrders %}
             <div class="cart-row product-row">
                 <div class="product-row-image">
